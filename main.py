@@ -90,7 +90,7 @@ def matchresume():
     # Get top matching resumes
     top_indices = similarities.argsort()[-5:][::-1]
     top_resumes = [resume_files[i] for i in top_indices]
-    similarity_scores = [round(similarities[i], 2) for i in top_indices]
+    similarity_scores = [round(similarities[i], 2)*100 for i in top_indices]
     
     # Pass data to the template
     return render_template('matchresume.html', 
@@ -133,9 +133,9 @@ def matcher():
         resume_vectors = vectors[1:]
         similarities = cosine_similarity([job_vector], resume_vectors)[0]
 
-        top_indices = similarities.argsort()[-5:][::-1]
+        top_indices = similarities.argsort()[::-1]
         top_resumes = [resume_files[i] for i in top_indices]
-        similarity_scores = [round(similarities[i], 2) for i in top_indices]
+        similarity_scores = [round(similarities[i], 2)*100 for i in top_indices]
         
         return render_template('matchresume.html', message="Top matching resumes:", 
                                top_resumes=top_resumes, similarity_scores=similarity_scores)
